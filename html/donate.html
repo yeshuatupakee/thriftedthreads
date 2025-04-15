@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Donate - Thrifted Threads</title>
+  <link rel="icon" href="images/logo/logo.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[#EFDCAB] text-[#443627] min-h-screen">
+
+  <!-- Donate Form -->
+  <main class="max-w-3xl mx-auto bg-white mt-10 p-8 rounded-xl shadow-md">
+    <h2 class="text-2xl font-bold mb-4 text-center">Donate Your Preloved Items</h2>
+    <p class="text-sm text-center text-[#443627]/80 mb-6">Help promote sustainable fashion by donating gently used clothes, bags, or shoes.</p>
+
+    <form class="space-y-6">
+      <!-- Name -->
+      <div>
+        <label class="block text-sm font-medium mb-1" for="name">Full Name</label>
+        <input type="text" id="name" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D98324]" placeholder="Juan Dela Cruz" required>
+      </div>
+
+      <!-- Email -->
+      <div>
+        <label class="block text-sm font-medium mb-1" for="email">Email</label>
+        <input type="email" id="email" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D98324]" placeholder="you@email.com" required>
+      </div>
+
+      <!-- Item Description -->
+      <div>
+        <label class="block text-sm font-medium mb-1" for="items">Item Description</label>
+        <textarea id="items" rows="4" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D98324]" placeholder="List the items you want to donate..." required></textarea>
+      </div>
+
+      <!-- Upload Photo -->
+      <div>
+        <label class="block text-sm font-medium mb-1" for="photo">Optional Photo</label>
+        <input type="file" id="photo" class="w-full text-sm text-[#443627] file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-[#D98324] file:text-white hover:file:bg-[#443627]">
+      </div>
+
+      <!-- Pickup or Drop-off -->
+      <div>
+        <label class="block text-sm font-medium mb-2">Donation Method</label>
+        <div class="flex items-center space-x-6">
+          <label class="flex items-center space-x-2">
+            <input type="radio" name="method" value="dropoff" class="accent-[#D98324]" checked>
+            <span>Drop-off</span>
+          </label>
+          <label class="flex items-center space-x-2">
+            <input type="radio" name="method" value="pickup" class="accent-[#D98324]">
+            <span>Request Pickup</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Submit -->
+      <div class="text-center">
+        <button type="submit" class="bg-[#D98324] hover:bg-[#443627] text-white font-semibold px-6 py-2 rounded-lg transition">Submit Donation</button>
+      </div>
+    </form>
+  </main>
+
+  <!-- Footer -->
+  <footer class="text-center text-sm text-[#443627]/70 py-6 mt-10">
+    &copy; 2025 Thrifted Threads • Giving clothes a second chance
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Thrifted Threads</title>
+  <link rel="icon" href="images/logo/logo.png" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[#EFDCAB] text-[#443627] min-h-screen flex flex-col items-center pt-10">
+
+  <!-- Navigation Bar -->
+  <nav class="bg-[#F2F6D0] shadow-md px-6 py-4 flex justify-between items-center w-full fixed top-0 left-0 z-50">
+    <div class="flex items-center space-x-3">
+      <img src="images/logo/logo.png" alt="Thrift Hive Logo" class="h-10">
+      <h1 class="text-2xl font-bold">Thrifted Threads</h1>
+    </div>
+    <div class="flex items-center space-x-6">
+      <a href="index.html" class="hover:text-[#D98324] font-medium transition">Home</a>
+      <a href="profile.html" class="hover:text-[#D98324] font-medium">Profile</a>
+      <a href="login.html" class="hover:text-[#D98324] font-medium">Logout</a>
+      <button class="relative">
+        <img src="images/icons/shopping_cart_black.svg" alt="Cart" class="h-6">
+        <span class="absolute -top-2 -right-2 bg-[#D98324] text-white text-xs px-1.5 py-0.5 rounded-full">2</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Profile Container -->
+  <div class="bg-white rounded-2xl shadow-lg w-full max-w-3xl p-8 space-y-10 mt-20">
+
+    <!-- Top: Profile Overview -->
+    <div class="flex flex-col md:flex-row items-center md:items-start md:space-x-8">
+      <img src="images/profile/default_profile.jpg" alt="User Avatar" class="w-32 h-32 rounded-full border-4 border-[#D98324] object-cover shadow-md">
+      <div class="text-center md:text-left mt-4 md:mt-0">
+        <h2 class="text-3xl font-bold">Jane Doe</h2>
+        <div class="mt-4 space-x-2">
+          <button class="px-4 py-2 bg-[#D98324] text-white rounded-lg hover:bg-[#443627] transition">Edit Profile</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Profile Details -->
+    <div>
+      <h3 class="text-xl font-semibold mb-2">Account Information</h3>
+      <div class="bg-[#F2F6D0] rounded-lg p-4 space-y-2 text-sm md:text-base">
+        <p><strong>Email:</strong> jane.doe@example.com</p>
+        <p><strong>Shipping Address:</strong> 123 Thrift St, Eco City, Earth</p>
+        <p><strong>Member Since:</strong> Jan 2024</p>
+      </div>
+    </div>
+
+    <!-- Order History -->
+    <div>
+      <h3 class="text-xl font-semibold mb-2">Recent Orders</h3>
+      <div class="space-y-4">
+        <!-- Order 1 -->
+        <div class="bg-[#F2F6D0] p-4 rounded-lg shadow-sm">
+          <p class="font-semibold">Order #2401</p>
+          <p class="text-sm opacity-80">3 items • $65.00 • March 22, 2025</p>
+        </div>
+
+        <!-- Order 2 -->
+        <div class="bg-[#F2F6D0] p-4 rounded-lg shadow-sm">
+          <p class="font-semibold">Order #2387</p>
+          <p class="text-sm opacity-80">2 items • $38.00 • February 10, 2025</p>
+        </div>
+
+        <!-- View all orders -->
+        <a href="orders.html" class="text-[#D98324] hover:underline text-sm">View All Orders</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <footer class="mt-10 text-sm text-[#443627] opacity-70">
+    &copy; 2025 Thrifted Threads
+  </footer>
+
+</body>
+</html>
