@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Thrifted Threads</title>
+  <link rel="icon" href="images/logo/logo.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[#EFDCAB] text-[#443627] min-h-screen flex items-center justify-center">
+  <div class="bg-white p-8 rounded-2xl shadow-xl max-w-md w-full text-center">
+    
+    <!-- Logo -->
+    <img src="images/logo/logo.png" alt="Thrift Hive Logo" class="h-16 mx-auto mb-4">
+
+    <!-- Heading -->
+    <h1 class="text-3xl font-bold mb-2">Forgot Password</h1>
+    <p class="text-sm mb-6 text-[#443627]/80">Enter your email address and we'll send you a link to reset your password.</p>
+
+    <!-- Form -->
+    <form action="forgotpass.php" method="POST" class="space-y-4">
+      <input
+        type="email"
+        name="email"
+        required
+        placeholder="Enter your email"
+        class="w-full px-4 py-3 border border-[#443627] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D98324]"
+      />
+      <button type="submit" class="w-full bg-[#D98324] text-white py-3 rounded-lg font-semibold hover:bg-[#443627] transition">
+        Send Reset Link
+      </button>
+    </form>
+
+    <!-- Back to Login -->
+    <div class="mt-6">
+      <a href="login.php" class="text-sm text-[#443627] hover:underline">
+        ← Back to Login
+      </a>
+    </div>
+
+    <!-- Footer -->
+    <footer class="mt-8 text-xs text-[#443627] opacity-70">
+      &copy; 2025 Thrifted Threads
+    </footer>
+  </div>
+</body>
+</html>
