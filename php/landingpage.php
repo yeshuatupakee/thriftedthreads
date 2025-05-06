@@ -40,7 +40,7 @@
 </nav>
     
 <!-- Hero Section -->
-<header id="home" class="relative bg-cover bg-center h-screen text-white flex flex-col items-center justify-center text-center px-6" style="background-image: url('./images/hero/hero.webp');">
+<header id="home" class="relative bg-cover bg-center h-screen text-white flex flex-col items-center justify-center text-center px-6" style="background-image: url('../images/hero/hero.webp');">
     <div class="absolute inset-0 bg-black bg-opacity-50"></div>
     <div class="relative z-10">
         <h1 class="text-6xl font-bold">Sustainable Style, Affordable Finds</h1>
