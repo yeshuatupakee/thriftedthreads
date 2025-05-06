@@ -15,7 +15,7 @@ $address = $_POST['address'];
 
 $profile_picture_path = null;
 if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] == 0) {
-    $target_dir = "images/profile/";
+    $target_dir = "../images/profile/";
     $filename = uniqid() . "_" . basename($_FILES["profile_picture"]["name"]);
     $target_file = $target_dir . $filename;
     move_uploaded_file($_FILES["profile_picture"]["tmp_name"], $target_file);

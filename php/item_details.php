@@ -41,7 +41,7 @@ if (isset($_SESSION['user_id'])) {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Thrifted Threads</title>
-  <link rel="icon" href="images/logo/logo.png">
+  <link rel="icon" href="../images/logo/logo.png">
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-[#EFDCAB] text-[#443627] min-h-screen flex flex-col">
@@ -49,7 +49,7 @@ if (isset($_SESSION['user_id'])) {
 <!-- Navbar -->
 <nav class="bg-[#F2F6D0] shadow-md px-6 py-4 flex justify-between items-center sticky top-0 z-50">
   <a href="homepage.php" class="flex items-center space-x-3">
-    <img src="images/logo/logo.png" alt="Thrifted Threads Logo" class="h-10">
+    <img src="../images/logo/logo.png" alt="Thrifted Threads Logo" class="h-10">
     <h1 class="text-2xl font-bold">Thrifted Threads</h1>
   </a>
   <div class="flex items-center space-x-6">
@@ -59,7 +59,7 @@ if (isset($_SESSION['user_id'])) {
       <button type="submit" name="logout" class="hover:text-[#D98324] font-medium transition">Logout</button>
     </form>
     <a href="cart.php" class="relative">
-      <img src="images/icons/shopping_cart_black.svg" alt="Cart" class="h-6">
+      <img src="../images/icons/shopping_cart_black.svg" alt="Cart" class="h-6">
       <?php if ($cart_count > 0): ?>
         <span class="absolute -top-2 -right-2 bg-[#D98324] text-white text-xs px-1.5 py-0.5 rounded-full">
           <?= $cart_count ?>

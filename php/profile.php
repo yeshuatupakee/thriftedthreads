@@ -50,7 +50,7 @@ if (isset($_POST['logout'])) {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Thrifted Threads</title>
-  <link rel="icon" href="images/logo/logo.png">
+  <link rel="icon" href="../images/logo/logo.png">
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-[#EFDCAB] text-[#443627] min-h-screen flex flex-col items-center pt-10">
@@ -59,7 +59,7 @@ if (isset($_POST['logout'])) {
   <nav class="bg-[#F2F6D0] shadow-md px-6 py-4 flex justify-between items-center w-full fixed top-0 left-0 z-50">
     <div class="flex items-center space-x-3">
       <a href="homepage.php" class="flex items-center space-x-3">
-        <img src="images/logo/logo.png" alt="Thrift Hive Logo" class="h-10">
+        <img src="../images/logo/logo.png" alt="Thrift Hive Logo" class="h-10">
         <h1 class="text-2xl font-bold">Thrifted Threads</h1>
       </a>
     </div>
@@ -70,7 +70,7 @@ if (isset($_POST['logout'])) {
         <button type="submit" name="logout" class="hover:text-[#D98324] font-medium transition bg-transparent border-none cursor-pointer">Logout</button>
       </form>
       <a href="cart.php" class="relative">
-  <img src="images/icons/shopping_cart_black.svg" alt="Cart" class="h-6">
+  <img src="../images/icons/shopping_cart_black.svg" alt="Cart" class="h-6">
   <?php if ($cart_item_count > 0): ?>
     <span class="absolute -top-2 -right-2 bg-[#D98324] text-white text-xs px-1.5 py-0.5 rounded-full">
       <?= $cart_item_count ?>
@@ -127,7 +127,7 @@ if (isset($_POST['logout'])) {
   <div class="relative">
     <img src="<?= htmlspecialchars($profile_picture) ?>" alt="User Avatar" class="w-32 h-32 rounded-full border-4 border-[#D98324] object-cover shadow-md transition-transform hover:scale-105">
     <button onclick="openModal()" class="absolute bottom-0 right-0 bg-[#D98324] text-white p-2 rounded-full shadow-md hover:bg-[#443627]">
-      <img src="images/icons/edit.svg" class="h-6" alt="Edit">
+      <img src="../images/icons/edit.svg" class="h-6" alt="Edit">
     </button>
   </div>
   <div class="text-center md:text-left mt-4 md:mt-0">

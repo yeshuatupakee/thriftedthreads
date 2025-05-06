@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Thrifted Threads</title>
-  <link rel="icon" href="images/logo/logo.png">
+  <link rel="icon" href="../images/logo/logo.png">
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-[#EFDCAB] text-[#443627] min-h-screen flex items-center justify-center">
@@ -12,7 +12,7 @@
   <div class="text-center px-6 py-12 bg-white rounded-2xl shadow-xl max-w-md w-full">
     
     <!-- Logo -->
-    <img src="images/logo/logo.png" alt="Thrift Hive Logo" class="h-16 mx-auto mb-4">
+    <img src="../images/logo/logo.png" alt="Thrift Hive Logo" class="h-16 mx-auto mb-4">
 
     <!-- Heading -->
     <h1 class="text-4xl font-bold mb-2">Welcome to Thrifted Threads</h1>

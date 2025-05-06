@@ -96,7 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Thrifted Threads</title>
-  <link rel="icon" href="images/logo/logo.png">
+  <link rel="icon" href="../images/logo/logo.png">
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-[#EFDCAB] text-[#443627] min-h-screen font-sans">
@@ -104,7 +104,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!-- Navigation -->
 <nav class="bg-[#F2F6D0] shadow px-6 py-4 flex justify-between items-center sticky top-0 z-50">
   <a href="homepage.php" class="flex items-center gap-3">
-    <img src="images/logo/logo.png" alt="Thrifted Threads Logo" class="h-10">
+    <img src="../images/logo/logo.png" alt="Thrifted Threads Logo" class="h-10">
     <h1 class="text-2xl font-bold">Thrifted Threads</h1>
   </a>
   <div class="flex items-center gap-6">
@@ -114,7 +114,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <button type="submit" name="logout" class="hover:text-[#D98324] font-medium bg-transparent border-none cursor-pointer transition">Logout</button>
     </form>
     <a href="cart.php" class="relative">
-      <img src="images/icons/shopping_cart_black.svg" alt="Cart" class="h-6">
+      <img src="../images/icons/shopping_cart_black.svg" alt="Cart" class="h-6">
       <span class="absolute -top-2 -right-2 bg-[#D98324] text-white text-xs px-1.5 py-0.5 rounded-full">
         <?php echo count($cart_items); ?>
       </span>

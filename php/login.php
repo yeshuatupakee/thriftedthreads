@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Thrifted Threads</title>
-  <link rel="icon" href="images/logo/logo.png">
+  <link rel="icon" href="../images/logo/logo.png">
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-[#EFDCAB] text-[#443627] min-h-screen flex items-center justify-center">
@@ -59,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
     <!-- Logo -->
     <div class="text-center mb-6">
-      <img src="images/logo/logo.png" alt="Thrift Hive Logo" class="h-16 mx-auto mb-2">
+      <img src="../images/logo/logo.png" alt="Thrift Hive Logo" class="h-16 mx-auto mb-2">
       <h1 class="text-3xl font-bold">Login</h1>
       <p class="text-sm mt-1 text-[#443627]/80">Welcome back to sustainable fashion ✨</p>
     </div>

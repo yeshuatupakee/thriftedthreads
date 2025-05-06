@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thrifted Threads</title>
-    <link rel="icon" href="images/logo/logo.png">
+    <link rel="icon" href="../images/logo/logo.png">
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-[#EFDCAB] text-[#443627]">
@@ -14,7 +14,7 @@
         <div class="flex justify-between items-center py-4">
             <!-- Logo and Brand Name -->
             <a href="#home" class="flex items-center space-x-2">
-                <img src="images/logo/logo.png" alt="Thrift Hive Logo" class="h-10 w-auto"> 
+                <img src="../images/logo/logo.png" alt="Thrift Hive Logo" class="h-10 w-auto"> 
                 <span class="text-2xl font-bold text-[#443627]">Thrifted Threads</span>
             </a>
             <div class="hidden md:flex space-x-6">
@@ -59,37 +59,37 @@
       <div class="overflow-x-auto flex space-x-6 px-4 [-ms-overflow-style:none] [scrollbar-width:none]">
         
         <div class="bg-white shadow-md rounded-lg p-4 text-center min-w-[250px]">
-          <img src="images/featured_finds/vintage_jacket.webp" alt="Vintage Jacket" class="mx-auto mb-4">
+          <img src="../images/featured_finds/vintage_jacket.webp" alt="Vintage Jacket" class="mx-auto mb-4">
           <h3 class="text-xl font-semibold">Vintage Jacket</h3>
           <p class="text-[#443627]">₱350.00</p>
         </div>
   
         <div class="bg-white shadow-md rounded-lg p-4 text-center min-w-[250px]">
-          <img src="images/featured_finds/retro_sneakers.webp" alt="Retro Sneakers" class="mx-auto mb-4">
+          <img src="../images/featured_finds/retro_sneakers.webp" alt="Retro Sneakers" class="mx-auto mb-4">
           <h3 class="text-xl font-semibold">Retro Sneakers</h3>
           <p class="text-[#443627]">₱450.00</p>
         </div>
   
         <div class="bg-white shadow-md rounded-lg p-4 text-center min-w-[250px]">
-          <img src="images/featured_finds/denim_jeans.webp" alt="Denim Jeans" class="mx-auto mb-4">
+          <img src="../images/featured_finds/denim_jeans.webp" alt="Denim Jeans" class="mx-auto mb-4">
           <h3 class="text-xl font-semibold">Denim Jeans</h3>
           <p class="text-[#443627]">₱300.00</p>
         </div>
   
         <div class="bg-white shadow-md rounded-lg p-4 text-center min-w-[250px]">
-          <img src="images/featured_finds/vintage_bag.webp" alt="Vintage Bag" class="mx-auto mb-4">
+          <img src="../images/featured_finds/vintage_bag.webp" alt="Vintage Bag" class="mx-auto mb-4">
           <h3 class="text-xl font-semibold">Vintage Bag</h3>
           <p class="text-[#443627]">₱250.00</p>
         </div>
   
         <div class="bg-white shadow-md rounded-lg p-4 text-center min-w-[250px]">
-          <img src="images/featured_finds/retro_watch.webp" alt="Retro Watch" class="mx-auto mb-4">
+          <img src="../images/featured_finds/retro_watch.webp" alt="Retro Watch" class="mx-auto mb-4">
           <h3 class="text-xl font-semibold">Retro Watch</h3>
           <p class="text-[#443627]">₱400.00</p>
         </div>
   
         <div class="bg-white shadow-md rounded-lg p-4 text-center min-w-[250px]">
-          <img src="images/featured_finds/stylish_hat.webp" alt="Stylish Hat" class="mx-auto mb-4">
+          <img src="../images/featured_finds/stylish_hat.webp" alt="Stylish Hat" class="mx-auto mb-4">
           <h3 class="text-xl font-semibold">Stylish Hat</h3>
           <p class="text-[#443627]">₱180.00</p>
         </div>
