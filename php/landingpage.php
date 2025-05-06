@@ -24,7 +24,7 @@
                 <a href="#about" class="text-[#443627] hover:text-[#D98324] scroll-link">About</a>
                 <a href="#contact" class="text-[#443627] hover:text-[#D98324] scroll-link">Contact</a>
                 <a href="#contact" class="text-[#443627] hover:text-[#D98324] scroll-link">Donate</a>
-
+                <a href="login.php" class="text-[#443627] hover:text-[#D98324]">Login</a>
             </div>
             <button class="md:hidden text-[#443627]" id="menu-toggle">☰</button>
         </div>
@@ -34,7 +34,8 @@
             <a href="#reviews" class="block text-[#443627] hover:text-[#D98324] scroll-link">Reviews</a>
             <a href="#about" class="block text-[#443627] hover:text-[#D98324] scroll-link">About</a>
             <a href="#contact" class="block text-[#443627] hover:text-[#D98324] scroll-link">Contact</a>
-            <a href="#contact" class="block text-[#443627] hover:text-[#D98324] scroll-link">Donate</a>
+            <a href="#donate" class="block text-[#443627] hover:text-[#D98324] scroll-link">Donate</a>
+            <a href="login.php" class="text-[#443627] hover:text-[#D98324]">Login</a>
         </div>
     </div>
 </nav>
@@ -134,7 +135,7 @@
 </section>
 
 <!-- Donate Section -->
-<section class="max-w-5xl mx-auto mt-12 mb-10 bg-[#F2F6D0] p-8 rounded-xl shadow-md text-center">
+<section id="donate" class="max-w-5xl mx-auto mt-12 mb-10 bg-[#F2F6D0] p-8 rounded-xl shadow-md text-center">
     <h2 class="text-2xl font-bold mb-2 text-[#443627]">Donate Your Preloved Items</h2>
     <p class="text-sm mb-4 text-[#443627]/80">Support sustainable fashion by giving your clothes a second life! We accept clean, gently used clothes, bags, and shoes.</p>
     <a href="donate.php" class="inline-block mt-4 bg-[#D98324] hover:bg-[#443627] text-white font-semibold px-6 py-2 rounded-lg transition">
