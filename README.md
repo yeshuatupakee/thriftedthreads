@@ -1,2 +1,2 @@
 # thriftedthreads
-online thrift shop system
+Online Thrift Shop Web Application for TEC101 (Tecnopreneurship)
