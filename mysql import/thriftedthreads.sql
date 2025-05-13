@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3307
--- Generation Time: Apr 13, 2025 at 04:02 PM
+-- Generation Time: May 13, 2025 at 01:09 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -36,14 +36,6 @@ CREATE TABLE `cart` (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `cart`
---
-
-INSERT INTO `cart` (`id`, `user_id`, `product_id`, `quantity`, `created_at`, `updated_at`) VALUES
-(13, 1, 7, 1, '2025-04-13 12:49:31', '2025-04-13 12:49:31'),
-(15, 1, 8, 1, '2025-04-13 13:47:44', '2025-04-13 13:47:44');
-
 -- --------------------------------------------------------
 
 --
@@ -67,7 +59,8 @@ CREATE TABLE `donations` (
 --
 
 INSERT INTO `donations` (`id`, `full_name`, `email`, `item_description`, `donation_method`, `photo_path`, `donated_at`, `contact`, `status`) VALUES
-(9, 'yes', 'joshua.angelo1001@gmail.com', 'asadasdsad', 'dropoff', 'donation_uploads/67fbaac320326_Snapinst.app_480396432_17858008299373107_6994601677136471545_n_1080.jpg', '2025-04-13 12:14:59', '23131313131', 'pending');
+(11, 'nother', 'nhehe@heheh.com', 'hehez', 'dropoff', '../donation_uploads/68230de503173_Screenshot 2024-08-20 122300.png', '2025-05-13 09:16:21', '12312312312', 'pending'),
+(12, 'dj khaled', 'dj@khaled.com', 'WE THE BEST MUSIC', 'pickup', '../donation_uploads/68230fcd7e897_Screenshot 2024-07-25 195612.png', '2025-05-13 09:24:29', '69696969696', 'pending');
 
 -- --------------------------------------------------------
 
@@ -81,8 +74,43 @@ CREATE TABLE `orders` (
   `order_number` varchar(20) DEFAULT NULL,
   `total_items` int(11) DEFAULT NULL,
   `total_price` decimal(10,2) DEFAULT NULL,
-  `order_date` datetime DEFAULT NULL
+  `order_date` datetime DEFAULT current_timestamp(),
+  `status` varchar(50) DEFAULT 'Pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`id`, `user_id`, `order_number`, `total_items`, `total_price`, `order_date`, `status`) VALUES
+(31, 1, 'ORD68232489dcd4d', 2, 119.00, '2025-05-13 18:52:57', 'Pending');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_details`
+--
+
+CREATE TABLE `order_details` (
+  `id` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `price` decimal(10,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `order_details`
+--
+
+INSERT INTO `order_details` (`id`, `order_id`, `product_id`, `quantity`, `price`) VALUES
+(5, 16, 10, 1, 99.00),
+(7, 18, 10, 1, 99.00),
+(15, 26, 10, 1, 99.00),
+(16, 27, 10, 1, 99.00),
+(17, 28, 10, 1, 99.00),
+(21, 31, 10, 1, 99.00),
+(22, 31, 12, 1, 20.00);
 
 -- --------------------------------------------------------
 
@@ -109,8 +137,8 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `name`, `description`, `price`, `image`, `created_at`, `stock`, `material`, `condition_note`, `care_instructions`, `fit_style`) VALUES
-(7, 'test', 'hehe', 99999999.00, 'uploads/67fb98dc40400.jpg', '2025-04-13 10:58:36', 1, '100% Cotton', 'Minor Wear', 'hehe', 'Relaxed & Comfy'),
-(8, 'test', 'asdasdadasd', 123.00, 'uploads/67fbb1e81dc27.jpg', '2025-04-13 12:45:28', 1, '100% Cotton', 'adsada', 'asdasd', '0');
+(10, 'try', 'try', 99.00, 'uploads/682245e0244d7.png', '2025-05-12 19:02:56', 0, 'try', 'try', 'try', '0'),
+(12, 'hehe', 'ye', 20.00, 'uploads/682323ed39234.png', '2025-05-13 10:50:21', 0, 'wtf', 'mkay', 'asd', 'kk');
 
 -- --------------------------------------------------------
 
@@ -127,18 +155,19 @@ CREATE TABLE `users` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `address` text DEFAULT NULL,
   `profile_picture` varchar(255) DEFAULT 'images/profile/default_profile.jpg',
-  `contact` varchar(20) DEFAULT NULL
+  `contact` varchar(20) DEFAULT NULL,
+  `role` enum('admin','user') DEFAULT 'user',
+  `remember_token` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `full_name`, `email`, `contact_number`, `password`, `created_at`, `address`, `profile_picture`, `contact`) VALUES
-(1, 'Joshua Angelo Antiporda', 'joshua.angelo1001@gmail.com', '09934406760', '$2y$10$mwitkRe76GxjpNRkfVUp4.JXLDlNcgeKNtKVuP.L/rbS/KFLApCXi', '2025-04-09 06:49:27', 'hehe', 'images/profile/67f9fedcd446c_Snapinst.app_480396432_17858008299373107_6994601677136471545_n_1080.jpg', NULL),
-(2, 'hehe', 'joshua.angelo10@gmail.com', NULL, '$2y$10$cyWbR0wi/.LeZKVkMSZGeO1c3Gs49sEesq4LMZ31KktSMx97ffKDi', '2025-04-09 06:52:06', NULL, 'images/profile/default_profile.jpg', NULL),
-(3, 'hehe', 'asdas@gasfa.com', NULL, '$2y$10$6UmCR2jROt2zG/qBGgOAj.b09MRfkBfwcx8SGUD7Ge2/NGlj0V.WK', '2025-04-09 08:44:25', NULL, 'images/profile/default_profile.jpg', NULL),
-(4, 'hehe', 'hehe@hehe.com', NULL, '$2y$10$hcIkO3ov8B4QB1iOhodh3OS5BfavGFM8WrkLO9cagfdMviN8dU222', '2025-04-09 08:51:34', NULL, 'images/profile/default_profile.jpg', NULL);
+INSERT INTO `users` (`id`, `full_name`, `email`, `contact_number`, `password`, `created_at`, `address`, `profile_picture`, `contact`, `role`, `remember_token`) VALUES
+(1, 'Joshua Angelo Antiporda', 'joshua.angelo1001@gmail.com', '09934406760', '$2y$10$mwitkRe76GxjpNRkfVUp4.JXLDlNcgeKNtKVuP.L/rbS/KFLApCXi', '2025-04-09 06:49:27', 'hehe', 'images/profile/67f9fedcd446c_Snapinst.app_480396432_17858008299373107_6994601677136471545_n_1080.jpg', NULL, 'user', NULL),
+(5, 'admin', 'admin@admin.com', NULL, '$2y$10$LAigQsMAst/ilbk18IF0hew3XdZlvy5V2INCxotdYo51DyvHzDZB6', '2025-05-13 06:09:11', NULL, 'images/profile/default_profile.jpg', '099334406760', 'admin', NULL),
+(6, 'Erfen Monts', 'erfen.monts@gmail.com', NULL, '$2y$10$6pvyD10vm/YEACN4I6cYK.zaJ5tif1/ePRsQ0Dcum.okCJMcYJoWO', '2025-05-13 11:04:34', NULL, 'images/profile/default_profile.jpg', '09081379388', 'user', NULL);
 
 --
 -- Indexes for dumped tables
@@ -166,6 +195,14 @@ ALTER TABLE `orders`
   ADD KEY `user_id` (`user_id`);
 
 --
+-- Indexes for table `order_details`
+--
+ALTER TABLE `order_details`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `order_id` (`order_id`),
+  ADD KEY `product_id` (`product_id`);
+
+--
 -- Indexes for table `products`
 --
 ALTER TABLE `products`
@@ -186,31 +223,37 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `donations`
 --
 ALTER TABLE `donations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+
+--
+-- AUTO_INCREMENT for table `order_details`
+--
+ALTER TABLE `order_details`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Constraints for dumped tables
@@ -228,6 +271,13 @@ ALTER TABLE `cart`
 --
 ALTER TABLE `orders`
   ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+
+--
+-- Constraints for table `order_details`
+--
+ALTER TABLE `order_details`
+  ADD CONSTRAINT `order_details_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`),
+  ADD CONSTRAINT `order_details_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
