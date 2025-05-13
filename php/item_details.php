@@ -75,7 +75,7 @@ if (isset($_SESSION['user_id'])) {
     <?php if ($product): ?>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-10 bg-white shadow-lg rounded-xl overflow-hidden">
         <div class="w-full h-full">
-          <img src="admin/<?= htmlspecialchars($product['image']) ?>" alt="<?= htmlspecialchars($product['name']) ?>" class="w-full h-full object-cover max-h-[600px]">
+          <img src="../admin/<?= htmlspecialchars($product['image']) ?>" alt="<?= htmlspecialchars($product['name']) ?>" class="w-full h-full object-cover max-h-[600px]">
         </div>
         <div class="p-6 flex flex-col justify-between">
           <div>

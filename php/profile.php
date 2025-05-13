@@ -49,7 +49,7 @@ if (isset($_POST['logout'])) {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Thrifted Threads</title>
+  <title>Profile | Thrifted Threads</title>
   <link rel="icon" href="../images/logo/logo.png">
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
@@ -66,6 +66,7 @@ if (isset($_POST['logout'])) {
     <div class="flex items-center space-x-6">
       <a href="homepage.php" class="hover:text-[#D98324] font-medium transition">Home</a>
       <a href="profile.php" class="hover:text-[#D98324] font-medium">Profile</a>
+      <a href="my_orders.php" class="hover:text-[#D98324] font-medium">My Orders</a>
       <form method="POST" class="inline">
         <button type="submit" name="logout" class="hover:text-[#D98324] font-medium transition bg-transparent border-none cursor-pointer">Logout</button>
       </form>
@@ -125,7 +126,7 @@ if (isset($_POST['logout'])) {
 <!-- Profile Overview -->
 <div class="flex flex-col md:flex-row items-center md:items-center md:space-x-8 mt-4">
   <div class="relative">
-    <img src="<?= htmlspecialchars($profile_picture) ?>" alt="User Avatar" class="w-32 h-32 rounded-full border-4 border-[#D98324] object-cover shadow-md transition-transform hover:scale-105">
+    <img src="../<?= htmlspecialchars($profile_picture) ?>" alt="User Avatar" class="w-32 h-32 rounded-full border-4 border-[#D98324] object-cover shadow-md transition-transform hover:scale-105">
     <button onclick="openModal()" class="absolute bottom-0 right-0 bg-[#D98324] text-white p-2 rounded-full shadow-md hover:bg-[#443627]">
       <img src="../images/icons/edit.svg" class="h-6" alt="Edit">
     </button>
@@ -171,7 +172,7 @@ if (isset($_POST['logout'])) {
         <?php else: ?>
           <p class="text-sm italic text-gray-500">No recent orders found.</p>
         <?php endif; ?>
-        <a href="orders.php" class="text-[#D98324] hover:underline text-sm">View All Orders</a>
+        <a href="my_orders.php" class="text-[#D98324] hover:underline text-sm">View All Orders</a>
       </div>
     </div>
   </div>

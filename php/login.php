@@ -7,26 +7,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $password = $_POST['password'];
 
     // Prepare the query to prevent SQL injection
-    $stmt = $conn->prepare("SELECT id, full_name, password FROM users WHERE email = ?");
+    $stmt = $conn->prepare("SELECT id, full_name, password, role FROM users WHERE email = ?");
     $stmt->bind_param("s", $email);
     $stmt->execute();
     $stmt->store_result();
 
     // If email found
     if ($stmt->num_rows > 0) {
-        $stmt->bind_result($id, $full_name, $hashed_password);
+        $stmt->bind_result($id, $full_name, $hashed_password, $role);
         $stmt->fetch();
 
         if (password_verify($password, $hashed_password)) {
             // Login success
             $_SESSION['user_id'] = $id;
             $_SESSION['user_name'] = $full_name;
-            
-            // Debugging: Check session variable
-            var_dump($_SESSION);
-            
-            header("Location: homepage.php"); // redirect to homepage after login
-            exit;
+            $_SESSION['role'] = $role; // Store the user's role in the session
+
+            // Redirect based on role
+            if ($role == 'admin') {
+                header("Location: ../admin/admin_dashboard.php"); // Redirect to the admin dashboard if the role is admin
+                exit;
+            } else {
+                header("Location: homepage.php"); // Redirect to homepage for regular users
+                exit;
+            }
         } else {
             $error = "Incorrect password.";
         }
@@ -94,19 +98,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     <!-- Divider -->
     <div class="my-6 border-t border-gray-300"></div>
-
-    <!-- Social Login -->
-    <div class="text-center space-y-3">
-      <p class="text-sm text-[#443627]/80">Or login with</p>
-      <div class="flex justify-center space-x-4">
-        <button class="px-4 py-2 border border-[#443627] text-[#443627] rounded-lg hover:bg-[#D98324] hover:text-white transition">
-          Google
-        </button>
-        <button class="px-4 py-2 border border-[#443627] text-[#443627] rounded-lg hover:bg-[#D98324] hover:text-white transition">
-          Facebook
-        </button>
-      </div>
-    </div>
 
     <!-- Signup Redirect -->
     <p class="text-sm text-center mt-6">Don't have an account?

@@ -1,19 +1,22 @@
 <?php
-// Start the session to manage user login status
 session_start();
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit();
+}
+
 include 'db_conn.php';
 
+$imageBasePath = '../admin/';
 $cart_count = 0;
 
-if (isset($_SESSION['user_id'])) {
-    $user_id = $_SESSION['user_id'];
-    $cart_query = $conn->prepare("SELECT SUM(quantity) as total_items FROM cart WHERE user_id = ?");
-    $cart_query->bind_param("i", $user_id);
-    $cart_query->execute();
-    $cart_result = $cart_query->get_result();
-    $cart_data = $cart_result->fetch_assoc();
-    $cart_count = $cart_data['total_items'] ?? 0;
-}
+$user_id = $_SESSION['user_id'];
+$cart_query = $conn->prepare("SELECT SUM(quantity) as total_items FROM cart WHERE user_id = ?");
+$cart_query->bind_param("i", $user_id);
+$cart_query->execute();
+$cart_result = $cart_query->get_result();
+$cart_data = $cart_result->fetch_assoc();
+$cart_count = $cart_data['total_items'] ?? 0;
 
 // Log out if the logout button is clicked
 if (isset($_POST['logout'])) {
@@ -36,7 +39,7 @@ function isInCart($productId) {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Thrifted Threads</title>
+  <title>Home | Thrifted Threads</title>
   <link rel="icon" href="../images/logo/logo.png">
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
@@ -54,6 +57,7 @@ function isInCart($productId) {
   <div class="flex items-center space-x-6">
     <a href="homepage.php" class="hover:text-[#D98324] font-medium transition">Home</a>
     <a href="profile.php" class="hover:text-[#D98324] font-medium">Profile</a>
+        <a href="my_orders.php" class="hover:text-[#D98324] font-medium">My Orders</a>
     <!-- Logout Button (styled as part of the navbar) -->
     <form method="POST" class="inline">
       <button type="submit" name="logout" class="hover:text-[#D98324] font-medium transition bg-transparent border-none cursor-pointer">Logout</button>
@@ -167,10 +171,10 @@ if (mysqli_num_rows($result) > 0) {
     while ($row = mysqli_fetch_assoc($result)) {
         echo '
             <div class="bg-white rounded-xl shadow-md overflow-hidden transform transition duration-300 hover:shadow-xl hover:scale-105 hover:-translate-y-1">
-                <img src="admin/' . $row['image'] . '" alt="' . $row['name'] . '" class="w-full h-48 object-cover">
+                <img src="' . $imageBasePath . $row['image'] . '" alt="' . htmlspecialchars($row['name']) . '" class="w-full h-48 object-cover">
                 <div class="p-4">
-                    <h3 class="text-lg font-bold">' . $row['name'] . '</h3>
-                    <p class="text-sm opacity-80 mt-1">' . $row['description'] . '</p>
+                    <h3 class="text-lg font-bold">' . htmlspecialchars($row['name']) . '</h3>
+                    <p class="text-sm opacity-80 mt-1">' . htmlspecialchars($row['description']) . '</p>
                     <p class="mt-2 font-semibold">₱' . number_format($row['price'], 2) . '</p>
                     <div class="mt-4 flex justify-between items-center">
                         ' . ($row['stock'] > 0 ? '
@@ -189,7 +193,6 @@ if (mysqli_num_rows($result) > 0) {
 }
 ?>
 </section>
-
 
   <!-- Optional: Newsletter / Promo -->
   <section class="bg-[#F2F6D0] py-10 text-center">

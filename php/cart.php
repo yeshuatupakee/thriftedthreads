@@ -46,7 +46,7 @@ $emptyCart = count($cart_items) === 0;
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Thrifted Threads</title>
+  <title>Cart | Thrifted Threads</title>
   <link rel="icon" href="../images/logo/logo.png">
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
@@ -63,6 +63,7 @@ $emptyCart = count($cart_items) === 0;
   <div class="flex items-center space-x-6">
     <a href="homepage.php" class="hover:text-[#D98324] font-medium transition">Home</a>
     <a href="profile.php" class="hover:text-[#D98324] font-medium">Profile</a>
+    <a href="my_orders.php" class="hover:text-[#D98324] font-medium">My Orders</a>
     <!-- Logout Button (styled as part of the navbar) -->
     <form method="POST" class="inline">
       <button type="submit" name="logout" class="hover:text-[#D98324] font-medium transition bg-transparent border-none cursor-pointer">Logout</button>
@@ -101,7 +102,7 @@ $emptyCart = count($cart_items) === 0;
             <?php foreach ($cart_items as $item): ?>
               <tr class="border-b hover:bg-[#f9f6ec] transition">
                 <td class="py-4 px-4 flex items-center gap-4">
-                  <img src="admin/<?php echo $item['image']; ?>" alt="<?php echo htmlspecialchars($item['name']); ?>" class="h-16 w-16 rounded object-cover border border-gray-300" />
+                  <img src="../admin/<?php echo $item['image']; ?>" alt="<?php echo htmlspecialchars($item['name']); ?>" class="h-16 w-16 rounded object-cover border border-gray-300" />
                   <span><?php echo htmlspecialchars($item['name']); ?></span>
                 </td>
                 <td class="py-4 px-4">₱<?php echo number_format($item['price'], 2); ?></td>

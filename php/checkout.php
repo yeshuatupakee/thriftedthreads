@@ -1,5 +1,12 @@
 <?php
 session_start();
+$successMessage = "";
+if (isset($_GET['order']) && $_GET['order'] === 'success') {
+    $successMessage = "<div class='bg-green-500 text-white p-4 rounded-lg text-center mb-6'>
+        <h3 class='text-2xl font-semibold'>Order Placed Successfully!</h3>
+        <p class='mt-2'>Your order has been successfully placed. You will be contacted for confirmation shortly.</p>
+    </div>";
+}
 include('db_conn.php');
 
 // Log out if the logout button is clicked
@@ -61,19 +68,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = "Please provide your address and contact number.";
     } else {
         // Insert order into the database
-        $order_query = "INSERT INTO orders (user_id, total, status, address, contact_number) 
-                        VALUES (?, ?, 'Pending', ?, ?)";
+        $order_number = uniqid("ORD"); // generates unique order number like ORD64789458ab3d2
+        $total_items = array_sum(array_column($cart_items, 'quantity'));
+        date_default_timezone_set('Asia/Manila');
+        $order_date = date("Y-m-d H:i:s");
+
+        $order_query = "INSERT INTO orders (user_id, order_number, total_items, total_price, order_date) 
+                        VALUES (?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($order_query);
-        $stmt->bind_param("idss", $user_id, $total, $address, $contact_number);
+        $stmt->bind_param("isids", $user_id, $order_number, $total_items, $total, $order_date);
         $stmt->execute();
         $order_id = $stmt->insert_id;
         
-        // Insert each cart item into the order_details table
+        // Insert order details
         foreach ($cart_items as $item) {
+            // Insert into order_details
             $order_details_query = "INSERT INTO order_details (order_id, product_id, quantity, price) 
                                     VALUES (?, ?, ?, ?)";
             $stmt = $conn->prepare($order_details_query);
             $stmt->bind_param("iiid", $order_id, $item['product_id'], $item['quantity'], $item['price']);
+            $stmt->execute();
+
+            // Update product stock
+            $update_stock_query = "UPDATE products SET stock = stock - ? WHERE id = ?";
+            $stmt = $conn->prepare($update_stock_query);
+            $stmt->bind_param("ii", $item['quantity'], $item['product_id']);
             $stmt->execute();
         }
 
@@ -82,10 +101,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $conn->prepare($clear_cart_query);
         $stmt->bind_param("i", $user_id);
         $stmt->execute();
-        
-        // Redirect to a success page (e.g., thank you page)
-        header('Location: order_success.php');
+
+        // Redirect to checkout with success message to clear cart display
+        header("Location: checkout.php?order=success");
         exit();
+        
+        // Show success message on the same page
+        echo "<div class='bg-green-500 text-white p-4 rounded-lg text-center mb-6'>
+                <h3 class='text-2xl font-semibold'>Order Placed Successfully!</h3>
+                <p class='mt-2'>Your order has been successfully placed. You will be contacted for confirmation shortly.</p>
+              </div>";
     }
 }
 ?>
@@ -110,6 +135,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <div class="flex items-center gap-6">
     <a href="homepage.php" class="hover:text-[#D98324] font-medium transition">Home</a>
     <a href="profile.php" class="hover:text-[#D98324] font-medium transition">Profile</a>
+    <a href="my_orders.php" class="hover:text-[#D98324] font-medium transition">My Orders</a>
     <form method="POST" class="inline">
       <button type="submit" name="logout" class="hover:text-[#D98324] font-medium bg-transparent border-none cursor-pointer transition">Logout</button>
     </form>
@@ -124,6 +150,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <!-- Main Content -->
 <main class="max-w-4xl mx-auto px-4 py-10">
+  <?php echo $successMessage; ?>
   <h2 class="text-3xl font-bold text-center mb-8">Checkout</h2>
 
   <?php if ($emptyCart): ?>
@@ -150,7 +177,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <?php foreach ($cart_items as $item): ?>
               <tr class="border-b hover:bg-[#f9f6ec] transition">
                 <td class="py-4 px-4 flex items-center gap-4">
-                  <img src="admin/<?php echo $item['image']; ?>" alt="<?php echo htmlspecialchars($item['name']); ?>" class="h-16 w-16 rounded object-cover border" />
+                  <img src="../admin/<?php echo $item['image']; ?>" alt="<?php echo htmlspecialchars($item['name']); ?>" class="h-16 w-16 rounded object-cover border" />
                   <span><?php echo htmlspecialchars($item['name']); ?></span>
                 </td>
                 <td class="py-4 px-4">₱<?php echo number_format($item['price'], 2); ?></td>
