@@ -69,7 +69,7 @@ endif;
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Thrifted Threads</title>
+  <title>Sign Up | Thrifted Threads</title>
   <link rel="icon" href="../images/logo/logo.png">
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
@@ -96,9 +96,11 @@ endif;
                class="w-full px-4 py-2 border border-[#ccc] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D98324]">
       </div>
       <div>
-        <label for="contact" class="block text-sm font-medium mb-1">Contact Number</label>
-        <input type="text" id="contact" name="contact" required
-              class="w-full px-4 py-2 border border-[#ccc] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D98324]">
+          <label for="contact" class="block text-sm font-medium mb-1">Contact Number</label>
+          <input type="text" id="contact" name="contact" required
+                pattern="^\d{11}$" maxlength="11" oninput="validateContact()" 
+                class="w-full px-4 py-2 border border-[#ccc] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D98324]">
+          <small class="text-red-500 hidden" id="contact-error">Contact number must be 11 digits long.</small>
       </div>
       <div>
         <label for="password" class="block text-sm font-medium mb-1">Password</label>
@@ -122,19 +124,6 @@ endif;
     <!-- Divider -->
     <div class="my-6 border-t border-gray-300"></div>
 
-    <!-- Social Signup -->
-    <div class="text-center space-y-3">
-      <p class="text-sm text-[#443627]/80">Or sign up with</p>
-      <div class="flex justify-center space-x-4">
-        <button class="px-4 py-2 border border-[#443627] text-[#443627] rounded-lg hover:bg-[#D98324] hover:text-white transition">
-          Google
-        </button>
-        <button class="px-4 py-2 border border-[#443627] text-[#443627] rounded-lg hover:bg-[#D98324] hover:text-white transition">
-          Facebook
-        </button>
-      </div>
-    </div>
-
     <!-- Redirect to Login -->
     <p class="text-sm text-center mt-6">Already have an account?
       <a href="login.php" class="text-[#D98324] font-medium hover:underline">Login</a>
@@ -146,4 +135,29 @@ endif;
     </footer>
   </div>
 </body>
+<script>
+function validateContact() {
+  const contactInput = document.getElementById('contact');
+  const contactError = document.getElementById('contact-error');
+
+  // Ensure only numbers are entered
+  contactInput.value = contactInput.value.replace(/\D/g, '');
+
+  // Show error message if input length is not 11
+  if (contactInput.value.length !== 11) {
+    contactError.classList.remove('hidden');
+  } else {
+    contactError.classList.add('hidden');
+  }
+}
+
+// Prevent form submission if contact number is invalid
+document.querySelector('form').addEventListener('submit', function(event) {
+  const contactInput = document.getElementById('contact');
+  if (contactInput.value.length !== 11) {
+    event.preventDefault();  // Prevent form submission
+    document.getElementById('contact-error').classList.remove('hidden');
+  }
+});
+</script>
 </html>

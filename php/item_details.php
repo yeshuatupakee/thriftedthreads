@@ -40,32 +40,35 @@ if (isset($_SESSION['user_id'])) {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Thrifted Threads</title>
+  <title><?php echo htmlspecialchars($product['name']); ?> | Thrifted Threads</title>
   <link rel="icon" href="../images/logo/logo.png">
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-[#EFDCAB] text-[#443627] min-h-screen flex flex-col">
 
-<!-- Navbar -->
+<!-- Navigation -->
 <nav class="bg-[#F2F6D0] shadow-md px-6 py-4 flex justify-between items-center sticky top-0 z-50">
-  <a href="homepage.php" class="flex items-center space-x-3">
-    <img src="../images/logo/logo.png" alt="Thrifted Threads Logo" class="h-10">
-    <h1 class="text-2xl font-bold">Thrifted Threads</h1>
-  </a>
+<div class="flex items-center space-x-3">
+    <!-- Wrap the logo and the title in a link -->
+    <a href="homepage.php" class="flex items-center space-x-3">
+      <img src="../images/logo/logo.png" alt="Thrift Hive Logo" class="h-10">
+      <h1 class="text-2xl font-bold">Thrifted Threads</h1>
+    </a>
+  </div>
   <div class="flex items-center space-x-6">
     <a href="homepage.php" class="hover:text-[#D98324] font-medium transition">Home</a>
     <a href="profile.php" class="hover:text-[#D98324] font-medium">Profile</a>
+        <a href="my_orders.php" class="hover:text-[#D98324] font-medium">My Orders</a>
+    <!-- Logout Button (styled as part of the navbar) -->
     <form method="POST" class="inline">
-      <button type="submit" name="logout" class="hover:text-[#D98324] font-medium transition">Logout</button>
+      <button type="submit" name="logout" class="hover:text-[#D98324] font-medium transition bg-transparent border-none cursor-pointer">Logout</button>
     </form>
     <a href="cart.php" class="relative">
-      <img src="../images/icons/shopping_cart_black.svg" alt="Cart" class="h-6">
-      <?php if ($cart_count > 0): ?>
-        <span class="absolute -top-2 -right-2 bg-[#D98324] text-white text-xs px-1.5 py-0.5 rounded-full">
-          <?= $cart_count ?>
-        </span>
-      <?php endif; ?>
-    </a>
+  <img src="../images/icons/shopping_cart_black.svg" alt="Cart" class="h-6">
+  <span class="absolute -top-2 -right-2 bg-[#D98324] text-white text-xs px-1.5 py-0.5 rounded-full">
+    <?php echo $cart_count; ?>
+  </span>
+</a>
   </div>
 </nav>
 

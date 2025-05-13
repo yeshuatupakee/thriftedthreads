@@ -54,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Thrifted Threads</title>
+  <title>Login | Thrifted Threads</title>
   <link rel="icon" href="../images/logo/logo.png">
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
@@ -79,13 +79,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <label for="password" class="block text-sm font-medium mb-1">Password</label>
         <input type="password" id="password" name="password" required
                class="w-full px-4 py-2 border border-[#ccc] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D98324]">
-      </div>
-      <div class="flex justify-between items-center text-sm">
-        <label class="flex items-center space-x-2">
-          <input type="checkbox" class="accent-[#D98324]">
-          <span>Remember me</span>
-        </label>
-        <a href="forgotpass.php" class="text-[#D98324] hover:underline">Forgot password?</a>
       </div>
       <button type="submit"
               class="w-full bg-[#D98324] text-white font-semibold py-3 rounded-lg hover:bg-[#443627] transition duration-300">

@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Handle file upload (photo)
     if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
-        $upload_dir = 'donation_uploads/';
+        $upload_dir = '../donation_uploads/';
         if (!file_exists($upload_dir)) {
             mkdir($upload_dir, 0755, true); // Create upload folder if not exists
         }

@@ -11,8 +11,44 @@ include 'db_conn.php';
 if (isset($_POST['logout'])) {
     session_unset();
     session_destroy();
-    header("Location: admin_login.php");
+    header("Location: ../php/login.php");
     exit();
+}
+
+// Handle status update
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if (isset($_POST['action']) && isset($_POST['donation_id'])) {
+        $action = $_POST['action'];
+        $donationId = intval($_POST['donation_id']);
+
+        if (in_array($action, ['accepted', 'declined', 'pending'])) {
+            $update = $conn->prepare("UPDATE donations SET status = ? WHERE id = ?");
+            $update->bind_param("si", $action, $donationId);
+            $update->execute();
+        }
+    }
+
+    // Handle donation deletion
+    if (isset($_POST['delete_donation_id'])) {
+        $deleteId = intval($_POST['delete_donation_id']);
+
+        // First, try to get the photo path
+        $stmt = $conn->prepare("SELECT photo_path FROM donations WHERE id = ?");
+        $stmt->bind_param("i", $deleteId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result && $row = $result->fetch_assoc()) {
+            $photoPath = $row['photo_path'];
+            if (!empty($photoPath) && file_exists($photoPath)) {
+                unlink($photoPath); // Delete the photo file
+            }
+        }
+
+        // Now delete the donation from the database
+        $deleteStmt = $conn->prepare("DELETE FROM donations WHERE id = ?");
+        $deleteStmt->bind_param("i", $deleteId);
+        $deleteStmt->execute();
+    }
 }
 ?>
 
@@ -20,7 +56,7 @@ if (isset($_POST['logout'])) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Admin Dashboard - Thrifted Threads</title>
+    <title>Donations | Thrifted Threads</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-[#F2F6D0] text-[#443627] min-h-screen font-sans">
@@ -128,7 +164,7 @@ if (isset($_POST['logout'])) {
                         <td class="px-6 py-4"><?= htmlspecialchars($row['donation_method']) ?></td>
                         <td class="px-6 py-4">
                             <?php
-                            $photoFolder = '../';
+                            $photoFolder = '';
                             $photoPath = $row['photo_path'];
                             if (!empty($photoPath)) {
                                 $fullPhotoPath = $photoFolder . $photoPath;
@@ -153,19 +189,37 @@ if (isset($_POST['logout'])) {
                                 <?= ucfirst($row['status']) ?>
                             </span>
                         </td>
-                        <td class="px-6 py-4">
-                        <form method="POST" class="flex gap-2 items-center">
-                            <input type="hidden" name="donation_id" value="<?= $row['id'] ?>">
-                            <select name="action" class="border rounded px-2 py-1 text-sm">
-                                <option value="pending" <?= $row['status'] === 'pending' ? 'selected' : '' ?>>Pending</option>
-                                <option value="accepted" <?= $row['status'] === 'accepted' ? 'selected' : '' ?>>Accepted</option>
-                                <option value="declined" <?= $row['status'] === 'declined' ? 'selected' : '' ?>>Declined</option>
-                            </select>
-                            <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white text-xs px-3 py-1 rounded">
-                                Update
-                            </button>
-                        </form>
-                        </td>
+                    <td class="px-6 py-4">
+                        <div class="flex flex-row items-center gap-3">
+                            <!-- Dropdown (left side) -->
+                            <form method="POST" class="flex flex-col gap-1">
+                                <input type="hidden" name="donation_id" value="<?= $row['id'] ?>">
+                                <select name="action" class="border rounded px-2 py-1 text-sm mb-1">
+                                    <option value="pending" <?= $row['status'] === 'pending' ? 'selected' : '' ?>>Pending</option>
+                                    <option value="accepted" <?= $row['status'] === 'accepted' ? 'selected' : '' ?>>Accepted</option>
+                                    <option value="declined" <?= $row['status'] === 'declined' ? 'selected' : '' ?>>Declined</option>
+                                </select>
+
+                            <!-- Vertical button stack (right side) -->
+                            <div class="flex flex-col gap-1">
+                                <!-- Update button -->
+                                <form method="POST">
+                                    <input type="hidden" name="donation_id" value="<?= $row['id'] ?>">
+                                    <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white text-xs px-3 py-1 rounded w-full">
+                                        Update
+                                    </button>
+                                </form>
+
+                                <!-- Delete button -->
+                                <form method="POST" onsubmit="return confirm('Are you sure you want to delete this donation?');">
+                                    <input type="hidden" name="delete_donation_id" value="<?= $row['id'] ?>">
+                                    <button type="submit" class="bg-red-500 hover:bg-red-600 text-white text-xs px-3 py-1 rounded w-full">
+                                        Delete
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </td>
                     </tr>
                     <?php endwhile; ?>
                 </tbody>

@@ -31,20 +31,6 @@
         </a>
     </div>
 
-
-    <!-- Optional Social Logins -->
-    <div class="mt-6">
-      <p class="text-sm mb-2 opacity-80">Or continue with</p>
-      <div class="flex justify-center space-x-4">
-        <button class="px-4 py-2 bg-white border border-[#443627] text-[#443627] rounded-lg hover:bg-[#D98324] hover:text-white transition">
-          Google
-        </button>
-        <button class="px-4 py-2 bg-white border border-[#443627] text-[#443627] rounded-lg hover:bg-[#D98324] hover:text-white transition">
-          Facebook
-        </button>
-      </div>
-    </div>
-
     <!-- Footer -->
     <footer class="mt-8 text-sm text-[#443627] opacity-70">
       &copy; 2025 Thrifted Threads • Sustainable Fashion for All

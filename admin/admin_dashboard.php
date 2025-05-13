@@ -25,7 +25,7 @@ if (isset($_POST['logout'])) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Admin Dashboard - Thrifted Threads</title>
+    <title>Admin Dashboard | Thrifted Threads</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-[#F2F6D0] text-[#443627] min-h-screen font-sans">

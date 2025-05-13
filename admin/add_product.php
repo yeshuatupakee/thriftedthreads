@@ -109,7 +109,7 @@ if (isset($_GET['delete'])) {
 if (isset($_POST['logout'])) {
     session_unset();
     session_destroy();
-    header("Location: admin_login.php");
+    header("Location: ../php/login.php");
     exit();
 }
 
@@ -118,7 +118,7 @@ if (isset($_POST['logout'])) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Admin Dashboard - Thrifted Threads</title>
+    <title>Add Product | Thrifted Threads</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-[#F2F6D0] text-[#443627] min-h-screen font-sans">
