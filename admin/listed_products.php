@@ -1,10 +1,9 @@
 <?php
 session_start();
 if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
+    header("Location: ../php/login.php");
     exit();
 }
-
 include 'db_conn.php';
 
 // Image upload handler
@@ -213,79 +212,94 @@ if (isset($_POST['logout'])) {
   </div>
 </section>
 
-<!-- Edit Modal -->
-<div id="editModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center px-4">
-  <div class="bg-white rounded-lg shadow-lg w-full max-w-2xl p-6 relative">
-    <h2 class="text-2xl font-semibold mb-4 text-[#D98324]">Edit Product</h2>
-    <form method="POST" enctype="multipart/form-data" class="space-y-4">
-      <input type="hidden" name="id" id="productId">
-      <div>
-        <label class="block text-sm font-medium mb-1" for="productName">Product Name</label>
-        <input type="text" name="name" id="productName" required class="w-full px-4 py-2 border rounded-md focus:ring focus:ring-[#D98324]">
-      </div>
-      <div>
-        <label class="block text-sm font-medium mb-1" for="productDescription">Description</label>
-        <textarea name="description" id="productDescription" required class="w-full px-4 py-2 border rounded-md focus:ring focus:ring-[#D98324]"></textarea>
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <label class="block text-sm font-medium mb-1" for="productMaterial">Material</label>
-          <input type="text" name="material" id="productMaterial" class="w-full px-4 py-2 border rounded-md">
-        </div>
-        <div>
-          <label class="block text-sm font-medium mb-1" for="productCondition">Condition</label>
-          <input type="text" name="condition" id="productCondition" class="w-full px-4 py-2 border rounded-md">
-        </div>
-      </div>
-      <div>
-        <label class="block text-sm font-medium mb-1" for="productCare">Care Instructions</label>
-        <textarea name="care_instructions" id="productCare" class="w-full px-4 py-2 border rounded-md"></textarea>
-      </div>
-      <div>
-        <label class="block text-sm font-medium mb-1" for="productFit">Fit Style</label>
-        <input type="text" name="fit_style" id="productFit" class="w-full px-4 py-2 border rounded-md">
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <label class="block text-sm font-medium mb-1" for="productPrice">Price (₱)</label>
-          <input type="number" name="price" id="productPrice" step="0.01" class="w-full px-4 py-2 border rounded-md">
-        </div>
-        <div>
-          <label class="block text-sm font-medium mb-1" for="productStock">Stock</label>
-          <input type="number" name="stock" id="productStock" class="w-full px-4 py-2 border rounded-md">
-        </div>
-      </div>
-      <div>
-        <label class="block text-sm font-medium mb-1" for="productImage">Change Image (optional)</label>
-        <input type="file" name="image" id="productImage" class="w-full px-4 py-2 border rounded-md">
-      </div>
-      <div class="flex justify-end gap-3 mt-6">
-        <button type="button" onclick="closeEditModal()" class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded-md">Cancel</button>
-        <button type="submit" name="update" class="bg-[#D98324] hover:bg-[#b86112] text-white px-6 py-2 rounded-md">Update</button>
-      </div>
-    </form>
-    <button onclick="closeEditModal()" class="absolute top-3 right-3 text-gray-500 hover:text-gray-700 text-xl">&times;</button>
-  </div>
+<!-- Edit Profile Modal -->
+<div id="editModal" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 opacity-0 pointer-events-none transition-all duration-300 ease-in-out">
+    <div class="bg-white rounded-2xl p-8 w-full max-w-2xl shadow-2xl transform scale-95 transition-all duration-300 ease-in-out relative">
+        <!-- Close Button -->
+        <button onclick="closeEditModal()" class="absolute top-4 right-4 text-gray-400 hover:text-[#D98324] text-2xl font-bold leading-none">×</button>
+
+        <h2 class="text-xl font-bold text-[#443627] mb-6 flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-[#D98324]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15.828l-2.828.586.586-2.828L16.414 6.586z" />
+            </svg>
+            Edit Product
+        </h2>
+
+        <form method="POST" enctype="multipart/form-data" class="space-y-4">
+            <input type="hidden" name="id" id="productId">
+            <div>
+                <label class="block text-sm font-medium text-[#443627] mb-1" for="productName">Product Name</label>
+                <input type="text" name="name" id="productName" required class="w-full border border-[#D6BFAF] px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D98324]">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-[#443627] mb-1" for="productDescription">Description</label>
+                <textarea name="description" id="productDescription" required class="w-full border border-[#D6BFAF] px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D98324]"></textarea>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-[#443627] mb-1" for="productMaterial">Material</label>
+                    <input type="text" name="material" id="productMaterial" class="w-full border border-[#D6BFAF] px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D98324]">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-[#443627] mb-1" for="productCondition">Condition</label>
+                    <input type="text" name="condition" id="productCondition" class="w-full border border-[#D6BFAF] px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D98324]">
+                </div>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-[#443627] mb-1" for="productCare">Care Instructions</label>
+                <textarea name="care_instructions" id="productCare" class="w-full border border-[#D6BFAF] px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D98324]"></textarea>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-[#443627] mb-1" for="productFit">Fit Style</label>
+                <input type="text" name="fit_style" id="productFit" class="w-full border border-[#D6BFAF] px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D98324]">
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-[#443627] mb-1" for="productPrice">Price (₱)</label>
+                    <input type="number" name="price" id="productPrice" step="0.01" class="w-full border border-[#D6BFAF] px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D98324]">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-[#443627] mb-1" for="productStock">Stock</label>
+                    <input type="number" name="stock" id="productStock" class="w-full border border-[#D6BFAF] px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D98324]">
+                </div>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-[#443627] mb-1" for="productImage">Change Image (optional)</label>
+                <input type="file" name="image" id="productImage" class="w-full border border-[#D6BFAF] px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D98324]">
+            </div>
+            <div class="flex justify-end gap-3 pt-2">
+                <button type="button" onclick="closeEditModal()" class="px-4 py-2 bg-gray-200 text-[#443627] rounded-lg hover:bg-gray-300 transition">Cancel</button>
+                <button type="submit" name="update" class="px-4 py-2 bg-[#D98324] text-white rounded-lg hover:bg-[#443627] transition">Update</button>
+            </div>
+        </form>
+    </div>
 </div>
     </main>
   </div>
 </div>
 <script>
 function openEditModal(id, name, description, material, condition, care, fit, price, stock) {
-  document.getElementById('editModal').classList.remove('hidden');
-  document.getElementById('productId').value = id;
-  document.getElementById('productName').value = name;
-  document.getElementById('productDescription').value = description;
-  document.getElementById('productMaterial').value = material;
-  document.getElementById('productCondition').value = condition;
-  document.getElementById('productCare').value = care;
-  document.getElementById('productFit').value = fit;
-  document.getElementById('productPrice').value = price;
-  document.getElementById('productStock').value = stock;
+    const modal = document.getElementById('editModal');
+    modal.classList.remove('opacity-0', 'pointer-events-none');
+    modal.querySelector('div').classList.remove('scale-95');
+    modal.querySelector('div').classList.add('scale-100');
+    
+    document.getElementById('productId').value = id;
+    document.getElementById('productName').value = name;
+    document.getElementById('productDescription').value = description;
+    document.getElementById('productMaterial').value = material;
+    document.getElementById('productCondition').value = condition;
+    document.getElementById('productCare').value = care;
+    document.getElementById('productFit').value = fit;
+    document.getElementById('productPrice').value = price;
+    document.getElementById('productStock').value = stock;
 }
 
 function closeEditModal() {
-  document.getElementById('editModal').classList.add('hidden');
+    const modal = document.getElementById('editModal');
+    modal.classList.add('opacity-0', 'pointer-events-none');
+    modal.querySelector('div').classList.remove('scale-100');
+    modal.querySelector('div').classList.add('scale-95');
 }
 </script>
 

@@ -1,11 +1,10 @@
 <?php
 session_start();
-include 'db_conn.php';
-
 if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
+    header("Location: ../php/login.php");
     exit();
 }
+include 'db_conn.php';
 
 if (isset($_POST['delete_order'])) {
     $orderId = $_POST['order_id'];

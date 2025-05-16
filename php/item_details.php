@@ -33,6 +33,16 @@ if (isset($_SESSION['user_id'])) {
     $cart_data = $cart_result->fetch_assoc();
     $cart_count = $cart_data['total_items'] ?? 0;
 }
+
+// Log out if the logout button is clicked
+if (isset($_POST['logout'])) {
+    session_destroy();
+    echo "<script>
+        alert('You have successfully logged out!');
+        window.location.href = 'landingpage.php'; // Redirect to landing page
+    </script>";
+    exit();  // Stop further script execution after redirect
+}
 ?>
 
 <!DOCTYPE html>

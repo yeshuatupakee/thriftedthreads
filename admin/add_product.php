@@ -1,10 +1,9 @@
 <?php
 session_start();
 if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
+    header("Location: ../php/login.php");
     exit();
 }
-
 include 'db_conn.php';
 
 // Image upload handler
@@ -15,7 +14,9 @@ function handleImageUpload($file) {
     $target_file = $target_dir . $uniqueName;
 
     if ($file["size"] > 10 * 1024 * 1024) return false;
-    if (!in_array($imageFileType, ['jpg', 'jpeg', 'png', 'gif'])) return false;
+
+    if (!in_array($imageFileType, ['jpg', 'jpeg', 'png', 'gif', 'webp'])) return false;
+
     if (!getimagesize($file["tmp_name"])) return false;
 
     return move_uploaded_file($file["tmp_name"], $target_file) ? $target_file : false;
@@ -81,11 +82,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           } else {
               $stmt = $conn->prepare("INSERT INTO products (name, description, material, condition_note, care_instructions, fit_style, price, stock, image) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
               $stmt->bind_param("ssssssdis", $name, $desc, $material, $condition, $care_instructions, $fit_style, $price, $stock, $imagePath);
-            if ($stmt->execute()) {
-                $successMessage = "✅ Product added successfully!";
-            } else {
-                $errorMessage = "❌ Error adding product: " . $stmt->error;
-            }
+              if ($stmt->execute()) {
+                  $successMessage = "Product added successfully!";
+              } else {
+                  $errorMessage = "Error adding product: " . $stmt->error;
+              }
           }
       }
   }
@@ -120,123 +121,140 @@ if (isset($_POST['logout'])) {
     <meta charset="UTF-8">
     <title>Add Product | Thrifted Threads</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 </head>
 <body class="bg-[#F2F6D0] text-[#443627] min-h-screen font-sans">
-  
-
 <div class="flex min-h-screen">
-  
-  <!-- Sidebar -->
-<aside class="w-64 bg-white shadow-lg hidden md:flex flex-col">
-  <div class="p-6 border-b border-gray-200">
-    <h2 class="text-2xl font-extrabold text-[#D98324] tracking-tight">Admin Panel</h2>
-  </div>
-  <nav class="flex flex-col gap-3 p-6 text-sm text-[#443627]">
-    <a href="admin_dashboard.php" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-[#F2F6D0] hover:text-[#D98324] transition">
-      <svg class="w-5 h-5 text-[#D98324]" fill="none" stroke="currentColor" stroke-width="2"
-           viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M13 5v6h6m-6 0h-2v6h2"/></svg>
-      Dashboard
-    <a href="listed_products.php" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-[#F2F6D0] hover:text-[#D98324] transition">
-      <svg class="w-5 h-5 text-[#D98324]" fill="none" stroke="currentColor" stroke-width="2" 
-          viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg>
-      Listed Products
-    </a>
-    <a href="add_product.php" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-[#F2F6D0] hover:text-[#D98324] transition">
-      <svg class="w-5 h-5 text-[#D98324]" fill="none" stroke="currentColor" stroke-width="2"
-           viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
-      Add Product
-    </a>
-    <a href="orders.php" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-[#F2F6D0] hover:text-[#D98324] transition">
-      <svg class="w-5 h-5 text-[#D98324]" fill="none" stroke="currentColor" stroke-width="2"
-           viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h18v4H3zM5 7v13h14V7"/></svg>
-      Orders
-    </a>
-    <a href="donations.php" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-[#F2F6D0] hover:text-[#D98324] transition">
-      <svg class="w-5 h-5 text-[#D98324]" fill="none" stroke="currentColor" stroke-width="2"
-           viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4h16v16H4z"/></svg>
-      Donations
-    </a>
-    <a href="users.php" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-[#F2F6D0] hover:text-[#D98324] transition">
-      <svg class="w-5 h-5 text-[#D98324]" fill="none" stroke="currentColor" stroke-width="2"
-           viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-      Users
-    </a>
-  </nav>
-</aside>
-
-  <!-- Main content -->
-  <div class="flex-1 flex flex-col">
-    
-    <!-- Navbar -->
-<header class="bg-white shadow-md px-6 py-4 border-b flex items-center justify-between">
-  <h1 class="text-2xl font-bold text-[#D98324] tracking-tight">Thrifted Threads Admin</h1>
-  <form method="POST">
-    <button name="logout"
-            class="bg-[#D98324] hover:bg-[#b86112] text-white font-medium px-5 py-2 rounded-lg transition-all duration-200 shadow-sm">
-      Logout
-    </button>
-  </form>
-</header>
-
-    <main class="flex-1 p-6">
-<!-- Add Product Section -->
-<div class="bg-white rounded-2xl shadow-lg p-8 w-full max-w-4xl mx-auto mt-6">
-    <h2 class="text-3xl font-bold text-[#443627] mb-6 border-b pb-3">🛍️ Add New Product</h2>
-    <form method="POST" enctype="multipart/form-data" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Product Name</label>
-            <input type="text" name="name" placeholder="Vintage Jacket" required class="w-full px-4 py-2 border rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#D98324]">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-white shadow-lg hidden md:flex flex-col">
+        <div class="p-6 border-b border-gray-200">
+            <h2 class="text-2xl font-extrabold text-[#D98324] tracking-tight">Admin Panel</h2>
         </div>
+        <nav class="flex flex-col gap-3 p-6 text-sm text-[#443627]">
+            <a href="admin_dashboard.php" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-[#F2F6D0] hover:text-[#D98324] transition">
+                <svg class="w-5 h-5 text-[#D98324]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M13 5v6h6m-6 0h-2v6h2"/></svg>
+                Dashboard
+            </a>
+            <a href="listed_products.php" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-[#F2F6D0] hover:text-[#D98324] transition">
+                <svg class="w-5 h-5 text-[#D98324]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg>
+                Listed Products
+            </a>
+            <a href="add_product.php" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-[#F2F6D0] hover:text-[#D98324] transition">
+                <svg class="w-5 h-5 text-[#D98324]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+                Add Product
+            </a>
+            <a href="orders.php" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-[#F2F6D0] hover:text-[#D98324] transition">
+                <svg class="w-5 h-5 text-[#D98324]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h18v4H3zM5 7v13h14V7"/></svg>
+                Orders
+            </a>
+            <a href="donations.php" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-[#F2F6D0] hover:text-[#D98324] transition">
+                <svg class="w-5 h-5 text-[#D98324]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4h16v16H4z"/></svg>
+                Donations
+            </a>
+            <a href="users.php" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-[#F2F6D0] hover:text-[#D98324] transition">
+                <svg class="w-5 h-5 text-[#D98324]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                Users
+            </a>
+        </nav>
+    </aside>
 
-        <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Material</label>
-            <input type="text" name="material" placeholder="Denim, Cotton" class="w-full px-4 py-2 border rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#D98324]">
-        </div>
+    <!-- Main content -->
+    <div class="flex-1 flex flex-col">
+        <!-- Navbar -->
+        <header class="bg-white shadow-md px-6 py-4 border-b flex items-center justify-between">
+            <h1 class="text-2xl font-bold text-[#D98324] tracking-tight">Thrifted Threads Admin</h1>
+            <form method="POST">
+                <button name="logout" class="bg-[#D98324] hover:bg-[#b86112] text-white font-medium px-5 py-2 rounded-lg transition-all duration-200 shadow-sm">
+                    Logout
+                </button>
+            </form>
+        </header>
 
-        <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Condition</label>
-            <input type="text" name="condition" placeholder="Like New / Gently Used" class="w-full px-4 py-2 border rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#D98324]">
-        </div>
+        <main class="flex-1 p-6">
+            <!-- Add Product Section -->
+            <div class="bg-white rounded-2xl shadow-lg p-8 w-full max-w-4xl mx-auto mt-6">
+                <h2 class="text-3xl font-bold text-[#443627] mb-6 border-b pb-3 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path d="M12 5v14m-7-7h14" stroke="#443627" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Add New Product
+                </h2>
+                <?php if (isset($errorMessage)): ?>
+                    <p class="text-red-500"><?php echo $errorMessage; ?></p>
+                <?php endif; ?>
+                <form method="POST" enctype="multipart/form-data" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Product Name</label>
+                        <input type="text" name="name" placeholder="Vintage Jacket" required class="w-full px-4 py-2 border rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#D98324]">
+                    </div>
 
-        <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Fit/Style Notes</label>
-            <input type="text" name="fit_style" placeholder="Oversized Fit" class="w-full px-4 py-2 border rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#D98324]">
-        </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Material</label>
+                        <input type="text" name="material" placeholder="Denim, Cotton" class="w-full px-4 py-2 border rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#D98324]">
+                    </div>
 
-        <div class="md:col-span-2">
-            <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
-            <textarea name="description" placeholder="A cool vintage jacket perfect for layering..." required class="w-full px-4 py-2 border rounded-2xl h-24 focus:outline-none focus:ring-2 focus:ring-[#D98324]"></textarea>
-        </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Condition</label>
+                        <input type="text" name="condition" placeholder="Like New / Gently Used" class="w-full px-4 py-2 border rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#D98324]">
+                    </div>
 
-        <div class="md:col-span-2">
-            <label class="block text-sm font-medium text-gray-700 mb-1">Care Instructions</label>
-            <textarea name="care_instructions" placeholder="Hand wash cold, hang dry." class="w-full px-4 py-2 border rounded-2xl h-20 focus:outline-none focus:ring-2 focus:ring-[#D98324]"></textarea>
-        </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Fit/Style Notes</label>
+                        <input type="text" name="fit_style" placeholder="Oversized Fit" class="w-full px-4 py-2 border rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#D98324]">
+                    </div>
 
-        <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Price (₱)</label>
-            <input type="number" name="price" step="0.01" placeholder="799.00" required class="w-full px-4 py-2 border rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#D98324]">
-        </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                        <textarea name="description" placeholder="A cool vintage jacket perfect for layering..." required class="w-full px-4 py-2 border rounded-2xl h-24 focus:outline-none focus:ring-2 focus:ring-[#D98324]"></textarea>
+                    </div>
 
-        <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Stock</label>
-            <input type="number" name="stock" placeholder="10" required class="w-full px-4 py-2 border rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#D98324]">
-        </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Care Instructions</label>
+                        <textarea name="care_instructions" placeholder="Hand wash cold, hang dry." class="w-full px-4 py-2 border rounded-2xl h-20 focus:outline-none focus:ring-2 focus:ring-[#D98324]"></textarea>
+                    </div>
 
-        <div class="md:col-span-2">
-            <label class="block text-sm font-medium text-gray-700 mb-1">Product Image</label>
-            <input type="file" name="image" class="w-full px-4 py-2 border rounded-2xl bg-white focus:outline-none focus:ring-2 focus:ring-[#D98324]" required>
-        </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Price (₱)</label>
+                        <input type="number" name="price" step="0.01" placeholder="799.00" required class="w-full px-4 py-2 border rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#D98324]">
+                    </div>
 
-        <div class="md:col-span-2 flex justify-end">
-            <button type="submit" name="add" class="bg-[#D98324] hover:bg-[#443627] text-white font-semibold px-6 py-2 rounded-2xl transition-all duration-200">
-                ➕ Add Product
-            </button>
-        </div>
-    </form>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Stock</label>
+                        <input type="number" name="stock" placeholder="10" required class="w-full px-4 py-2 border rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#D98324]">
+                    </div>
+
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Product Image</label>
+                        <input type="file" name="image" class="w-full px-4 py-2 border rounded-2xl bg-white focus:outline-none focus:ring-2 focus:ring-[#D98324]" required>
+                    </div>
+
+                    <div class="md:col-span-2 flex justify-end">
+                        <button type="submit" name="add" class="bg-[#D98324] hover:bg-[#443627] text-white font-semibold px-6 py-2 rounded-2xl transition-all duration-200 flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 5v14m-7-7h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            Add Product
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
 </div>
-    </main>
-  </div>
-</div>
+
+<?php if (isset($successMessage)): ?>
+<script>
+    Toastify({
+        text: "<?php echo $successMessage; ?>",
+        duration: 3000,
+        close: true,
+        gravity: "top",
+        position: "right",
+        backgroundColor: "#4caf50",
+        stopOnFocus: true,
+    }).showToast();
+</script>
+<?php endif; ?>
 </body>
 </html>

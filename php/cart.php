@@ -53,20 +53,17 @@ $emptyCart = count($cart_items) === 0;
 <body class="bg-[#EFDCAB] text-[#443627] min-h-screen">
 
 <!-- Navigation -->
-<nav class="bg-[#F2F6D0] shadow-md px-6 py-4 flex justify-between items-center sticky top-0 z-50">
-  <div class="flex items-center space-x-3">
-    <a href="homepage.php" class="flex items-center space-x-3">
-      <img src="../images/logo/logo.png" alt="Thrift Hive Logo" class="h-10">
-      <h1 class="text-2xl font-bold">Thrifted Threads</h1>
-    </a>
-  </div>
-  <div class="flex items-center space-x-6">
-    <a href="homepage.php" class="hover:text-[#D98324] font-medium transition">Home</a>
-    <a href="profile.php" class="hover:text-[#D98324] font-medium">Profile</a>
-    <a href="my_orders.php" class="hover:text-[#D98324] font-medium">My Orders</a>
-    <!-- Logout Button (styled as part of the navbar) -->
+<nav class="bg-[#F2F6D0] shadow-lg px-6 py-4 flex justify-between items-center sticky top-0 z-50">
+  <a href="homepage.php" class="flex items-center gap-3">
+    <img src="../images/logo/logo.png" alt="Logo" class="h-10">
+    <span class="text-2xl font-bold text-[#443627]">Thrifted Threads</span>
+  </a>
+  <div class="flex items-center gap-6 text-[#443627] font-medium">
+    <a href="homepage.php" class="hover:text-[#D98324] transition">Home</a>
+    <a href="profile.php" class="hover:text-[#D98324] transition">Profile</a>
+    <a href="my_orders.php" class="hover:text-[#D98324] transition">My Orders</a>
     <form method="POST" class="inline">
-      <button type="submit" name="logout" class="hover:text-[#D98324] font-medium transition bg-transparent border-none cursor-pointer">Logout</button>
+      <button type="submit" name="logout" class="hover:text-[#D98324] transition bg-transparent border-none cursor-pointer">Logout</button>
     </form>
     <a href="cart.php" class="relative">
       <img src="../images/icons/shopping_cart_black.svg" alt="Cart" class="h-6">
@@ -76,40 +73,39 @@ $emptyCart = count($cart_items) === 0;
 </nav>
 
 <!-- Cart Content -->
-<!-- Inside the cart content section -->
-<div class="max-w-6xl mx-auto px-4 py-10">
-  <h1 class="text-3xl font-semibold mb-8 text-center">🛒 Your Shopping Cart</h1>
+<div class="max-w-6xl mx-auto px-4 py-12">
+  <h1 class="text-4xl font-bold text-center text-[#443627] mb-10">🛍️ Your Shopping Cart</h1>
 
   <?php if ($emptyCart): ?>
-    <div class="text-center text-lg text-gray-600 bg-white py-12 rounded-lg shadow-sm">
-      <p>Your cart is currently empty.</p>
-      <a href="homepage.php" class="mt-4 inline-block text-[#D98324] hover:text-[#443627] underline transition">Continue Shopping</a>
+    <div class="text-center bg-white py-12 px-6 rounded-xl shadow-md text-[#443627]">
+      <p class="text-lg mb-4">Your cart is currently empty.</p>
+      <a href="homepage.php" class="text-[#D98324] hover:text-[#443627] underline transition">Continue Shopping</a>
     </div>
   <?php else: ?>
-    <div class="bg-white p-6 rounded-2xl shadow-md">
+    <div class="bg-white p-8 rounded-2xl shadow-lg">
       <div class="overflow-x-auto">
-        <table class="min-w-full table-auto">
+        <table class="w-full table-auto">
           <thead>
-            <tr class="border-b text-left text-[#443627]">
-              <th class="py-3 px-4">Product</th>
-              <th class="py-3 px-4">Price</th>
-              <th class="py-3 px-4">Quantity</th>
-              <th class="py-3 px-4">Subtotal</th>
-              <th class="py-3 px-4">Actions</th>
+            <tr class="bg-[#f9f6ec] text-[#443627] text-left">
+              <th class="py-3 px-5">Product</th>
+              <th class="py-3 px-5">Price</th>
+              <th class="py-3 px-5">Quantity</th>
+              <th class="py-3 px-5">Subtotal</th>
+              <th class="py-3 px-5">Actions</th>
             </tr>
           </thead>
           <tbody>
             <?php foreach ($cart_items as $item): ?>
-              <tr class="border-b hover:bg-[#f9f6ec] transition">
-                <td class="py-4 px-4 flex items-center gap-4">
-                  <img src="../admin/<?php echo $item['image']; ?>" alt="<?php echo htmlspecialchars($item['name']); ?>" class="h-16 w-16 rounded object-cover border border-gray-300" />
-                  <span><?php echo htmlspecialchars($item['name']); ?></span>
+              <tr class="border-b hover:bg-[#f5f3ea] transition">
+                <td class="py-4 px-5 flex items-center gap-4">
+                  <img src="../admin/<?php echo $item['image']; ?>" alt="<?php echo htmlspecialchars($item['name']); ?>" class="h-16 w-16 object-cover rounded border border-gray-300" />
+                  <span class="text-[#443627] font-medium"><?php echo htmlspecialchars($item['name']); ?></span>
                 </td>
-                <td class="py-4 px-4">₱<?php echo number_format($item['price'], 2); ?></td>
-                <td class="py-4 px-4"><?php echo $item['quantity']; ?></td>
-                <td class="py-4 px-4 font-medium">₱<?php echo number_format($item['price'] * $item['quantity'], 2); ?></td>
-                <td class="py-4 px-4">
-                  <div class="flex gap-3">
+                <td class="py-4 px-5 text-[#443627]">₱<?php echo number_format($item['price'], 2); ?></td>
+                <td class="py-4 px-5 text-[#443627]"><?php echo $item['quantity']; ?></td>
+                <td class="py-4 px-5 text-[#443627] font-semibold">₱<?php echo number_format($item['price'] * $item['quantity'], 2); ?></td>
+                <td class="py-4 px-5">
+                  <div class="flex gap-4">
                     <a href="item_details.php?id=<?php echo $item['product_id']; ?>" class="text-blue-600 hover:text-blue-800 transition">View</a>
                     <a href="remove_from_cart.php?product_id=<?php echo $item['product_id']; ?>" onclick="return confirm('Remove this item from cart?')" class="text-red-600 hover:text-red-800 transition">Remove</a>
                   </div>
@@ -121,18 +117,19 @@ $emptyCart = count($cart_items) === 0;
       </div>
 
       <!-- Total and Checkout -->
-      <div class="mt-6 flex flex-col md:flex-row justify-between items-center gap-4">
-        <p class="text-xl font-semibold text-[#443627]">Total: <span class="text-[#D98324]">₱<?php echo number_format($total, 2); ?></span></p>
-        <a href="checkout.php" class="bg-[#D98324] text-white px-6 py-3 rounded-lg hover:bg-[#443627] transition text-center w-full md:w-auto">Proceed to Checkout</a>
+      <div class="mt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+        <p class="text-2xl font-semibold text-[#443627]">Total: <span class="text-[#D98324]">₱<?php echo number_format($total, 2); ?></span></p>
+        <a href="checkout.php" class="bg-[#D98324] hover:bg-[#443627] text-white px-8 py-3 rounded-xl transition shadow-md w-full md:w-auto text-center font-semibold">Proceed to Checkout</a>
       </div>
     </div>
   <?php endif; ?>
 </div>
 
 <!-- Footer -->
-<footer class="text-center text-sm text-[#443627]/70 py-6">
+<footer class="text-center text-sm text-[#443627]/70 py-8">
   &copy; 2025 Thrifted Threads • Sustainable fashion made easy
 </footer>
+
 
 </body>
 </html>
