@@ -12,9 +12,9 @@ if (isset($_POST['update_role'])) {
     $new_role = $_POST['role'];
 
     // Validate the role
-    $allowed_roles = ['user', 'admin']; // Only admin and user
+    $allowed_roles = ['user', 'admin'];
     if (!in_array($new_role, $allowed_roles)) {
-        echo "Invalid role!";
+        echo "<script>alert('Invalid role!'); window.location.href='users.php';</script>";
         exit();
     }
 
@@ -24,11 +24,10 @@ if (isset($_POST['update_role'])) {
     $stmt->bind_param('si', $new_role, $user_id);
     
     if ($stmt->execute()) {
-        echo "Role updated successfully!";
-        header("Location: users.php"); // Redirect back to the users page
+        echo "<script>alert('Role updated successfully!'); window.location.href='users.php';</script>";
         exit();
     } else {
-        echo "Error updating role.";
+        echo "<script>alert('Error updating role.'); window.location.href='users.php';</script>";
     }
 }
 
@@ -36,17 +35,29 @@ if (isset($_POST['update_role'])) {
 if (isset($_POST['delete_user'])) {
     $user_id_to_delete = $_POST['user_id'];
 
+    // Check if the user is an admin
+    $query = "SELECT role FROM users WHERE id = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param('i', $user_id_to_delete);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $user = $result->fetch_assoc();
+
+    if ($user && $user['role'] === 'admin') {
+        echo "<script>alert('Cannot delete an admin account!'); window.location.href='users.php';</script>";
+        exit();
+    }
+
     // Delete the user from the database
     $delete_query = "DELETE FROM users WHERE id = ?";
     $stmt = $conn->prepare($delete_query);
     $stmt->bind_param('i', $user_id_to_delete);
     
     if ($stmt->execute()) {
-        echo "User deleted successfully!";
-        header("Location: users.php"); // Redirect back to the users page
+        echo "<script>alert('User deleted successfully!'); window.location.href='users.php';</script>";
         exit();
     } else {
-        echo "Error deleting user.";
+        echo "<script>alert('Error deleting user.'); window.location.href='users.php';</script>";
     }
 }
 
@@ -69,7 +80,11 @@ if (isset($_POST['logout'])) {
     <title>Users | Thrifted Threads</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        function confirmDelete() {
+        function confirmDelete(isAdmin) {
+            if (isAdmin) {
+                alert('Cannot delete an admin account!');
+                return false;
+            }
             return confirm("Are you sure you want to delete this user?");
         }
     </script>
@@ -133,7 +148,7 @@ if (isset($_POST['logout'])) {
                     <th class="px-6 py-3">Profile</th>
                     <th class="px-6 py-3">Full Name</th>
                     <th class="px-6 py-3">Email</th>
-                    <th class="px-6 py-3">Contact</th>
+                    <th class="px-6 py-3">Contact Number</th>
                     <th class="px-6 py-3">Address</th>
                     <th class="px-6 py-3">Role</th>
                     <th class="px-6 py-3">Registered On</th>
@@ -154,20 +169,20 @@ if (isset($_POST['logout'])) {
                             <td class="px-6 py-4"><?= htmlspecialchars($row['contact_number'] ?? $row['contact']); ?></td>
                             <td class="px-6 py-4"><?= htmlspecialchars($row['address']); ?></td>
                             <td class="px-6 py-4">
-                                <form method="POST" action="">
+                                <form method="POST" action="" class="flex flex-col gap-2">
                                     <input type="hidden" name="user_id" value="<?= $row['id']; ?>">
-                                    <select name="role" class="bg-white border border-gray-300 text-[#443627] px-3 py-2 rounded-md">
+                                    <select name="role" class="bg-white border border-gray-300 text-[#443627] w-32 h-10 rounded-md px-3">
                                         <option value="user" <?= $row['role'] == 'user' ? 'selected' : ''; ?>>User</option>
                                         <option value="admin" <?= $row['role'] == 'admin' ? 'selected' : ''; ?>>Admin</option>
                                     </select>
-                                    <button type="submit" name="update_role" class="bg-[#D98324] hover:bg-[#b86112] text-white font-medium px-4 py-2 rounded-md mt-2">Update Role</button>
+                                    <button type="submit" name="update_role" class="bg-[#D98324] hover:bg-[#b86112] text-white font-medium w-32 h-10 rounded-md">Update Role</button>
                                 </form>
                             </td>
                             <td class="px-6 py-4"><?= date("F j, Y, g:i a", strtotime($row['created_at'])); ?></td>
                             <td class="px-6 py-4">
-                                <form method="POST" action="" onsubmit="return confirmDelete();">
+                                <form method="POST" action="" onsubmit="return confirmDelete(<?= $row['role'] === 'admin' ? 'true' : 'false' ?>);">
                                     <input type="hidden" name="user_id" value="<?= $row['id']; ?>">
-                                    <button type="submit" name="delete_user" class="bg-red-500 hover:bg-red-700 text-white font-medium px-4 py-2 rounded-md mt-2">Delete</button>
+                                    <button type="submit" name="delete_user" class="bg-red-500 hover:bg-red-700 text-white font-medium px-4 py-2 rounded-md mt-2 <?= $row['role'] === 'admin' ? 'opacity-50 cursor-not-allowed' : '' ?>" <?= $row['role'] === 'admin' ? 'disabled' : '' ?>>Delete</button>
                                 </form>
                             </td>
                         </tr>

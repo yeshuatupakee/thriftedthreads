@@ -7,9 +7,9 @@ if (isset($_POST['logout'])) {
     session_destroy();
     echo "<script>
         alert('You have successfully logged out!');
-        window.location.href = 'landingpage.php'; // Redirect to landing page
+        window.location.href = 'landingpage.php';
     </script>";
-    exit();  // Stop further script execution after redirect
+    exit();
 }
 
 // Check login
@@ -20,8 +20,8 @@ if (!isset($_SESSION['user_id'])) {
 
 $user_id = $_SESSION['user_id'];
 
-// Fetch cart items
-$query = "SELECT c.product_id, p.name, p.price, p.image, c.quantity 
+// Fetch cart items with product stock
+$query = "SELECT c.product_id, p.name, p.price, p.image, c.quantity, p.stock 
           FROM cart c 
           JOIN products p ON c.product_id = p.id 
           WHERE c.user_id = ?";
@@ -102,7 +102,14 @@ $emptyCart = count($cart_items) === 0;
                   <span class="text-[#443627] font-medium"><?php echo htmlspecialchars($item['name']); ?></span>
                 </td>
                 <td class="py-4 px-5 text-[#443627]">₱<?php echo number_format($item['price'], 2); ?></td>
-                <td class="py-4 px-5 text-[#443627]"><?php echo $item['quantity']; ?></td>
+                <td class="py-4 px-5 text-[#443627]">
+                  <form method="POST" action="update_cart_quantity.php" class="flex items-center gap-2">
+                    <input type="hidden" name="product_id" value="<?php echo $item['product_id']; ?>">
+                    <button type="submit" name="action" value="decrease" class="bg-[#D98324] text-white px-2 py-1 rounded disabled:bg-gray-300" <?php echo $item['quantity'] <= 1 ? 'disabled' : ''; ?>>-</button>
+                    <input type="number" name="quantity" value="<?php echo $item['quantity']; ?>" min="1" max="<?php echo $item['stock']; ?>" class="w-12 text-center border rounded" onchange="this.form.submit()">
+                    <button type="submit" name="action" value="increase" class="bg-[#D98324] text-white px-2 py-1 rounded disabled:bg-gray-300" <?php echo $item['quantity'] >= $item['stock'] ? 'disabled' : ''; ?>>+</button>
+                  </form>
+                </td>
                 <td class="py-4 px-5 text-[#443627] font-semibold">₱<?php echo number_format($item['price'] * $item['quantity'], 2); ?></td>
                 <td class="py-4 px-5">
                   <div class="flex gap-4">
@@ -127,9 +134,8 @@ $emptyCart = count($cart_items) === 0;
 
 <!-- Footer -->
 <footer class="text-center text-sm text-[#443627]/70 py-8">
-  &copy; 2025 Thrifted Threads • Sustainable fashion made easy
+  © 2025 Thrifted Threads • Sustainable fashion made easy
 </footer>
-
 
 </body>
 </html>
